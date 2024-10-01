@@ -87,11 +87,23 @@ label {
 	flex-wrap: wrap;
 }
 
+#create-employee .address :nth-child(5) {
+	margin: 0 0 0px 0;
+}
+
+#create-employee .address div {
+	margin: 0 0 10px 0;
+}
+#create-employee .address select {
+	margin: 0 0 20px 0;
+}
+#create-employee .address legend {
+	margin-bottom: 10px;
+}
 #employee-department {
 	flex: 1 1 60vw;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 }
 
