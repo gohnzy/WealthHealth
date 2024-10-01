@@ -2,18 +2,12 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const TextInput = ({ label }) => {
-	const [value, setValue] = React.useState('');
-
-	const handleChange = event => {
-		setValue(event.target.value);
-	};
-
+const TextInput = ({ label, onChange, id }) => {
 	return (
 		<CustomTextField
+			id={id}
 			label={label}
-			value={value}
-			onChange={handleChange}
+			onChange={onChange}
 			variant="outlined"
 			className="textInputCreateEmployee"
 			required

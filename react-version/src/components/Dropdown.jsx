@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 
-const Dropdown = ({ label, data }) => {
+const Dropdown = ({ label, data, onChange }) => {
 	const [selectedValue, setSelectedValue] = useState('');
 
 	const handleChange = event => {
 		setSelectedValue(event.target.value);
+		onChange && onChange(event);
 	};
 
 	return (
 		<select
 			name={label}
-			id={label}
+			id={label.toLowerCase()}
 			className="dropdownMenus"
 			required
 			value={selectedValue}
@@ -26,7 +27,7 @@ const Dropdown = ({ label, data }) => {
 					</option>
 				))
 			) : (
-				<option value="">Data error</option>
+				<option value="">No data found</option>
 			)}
 		</select>
 	);

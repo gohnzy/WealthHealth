@@ -4,15 +4,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 
-const DatePicker = ({ label }) => {
-	const [selectedDate, setSelectedDate] = React.useState(null);
+const DatePicker = ({ label, onChange, id }) => {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
 			<StyledDatePicker
+				id={id}
 				label={label}
-				value={selectedDate}
-				onChange={newValue => setSelectedDate(newValue)}
-				className="datesPickerCreateEmployee"
+				onChange={onChange}
+				className={`datesPickerCreateEmployee ${label}`}
 			/>
 		</LocalizationProvider>
 	);

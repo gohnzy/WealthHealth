@@ -116,14 +116,9 @@ label {
 	margin: 30px 0 -10px 0;
 }
 
-#create-employee #first-name,
-#create-employee #last-name,
-#create-employee #street,
-#create-employee #city,
-#create-employee #zip-code {
+#create-employee input[type='text'] {
 	height: 42px;
-	border: 1px solid black;
-	border-radius: 3px;
+	padding: 6px;
 }
 
 .address {
