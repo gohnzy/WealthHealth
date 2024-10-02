@@ -3,19 +3,21 @@ import '../styles/App.css';
 
 import React from 'react';
 import { useState } from 'react';
-import format from 'date-fns/format';
-import DatePicker from '../components/DatePicker';
-import TextInput from '../components/TextInput';
-import Dropdown from '../components/Dropdown';
-
 import states from '../utils/states';
 import departments from '../utils/departments';
-import SaveEmployee from '../components/SaveEmployee';
+
+// New NPM Plugin for select dropdown menus
+import Dropdown from 'select-menu-react-plugin';
+
 import Buttons from '../components/Buttons';
+import DatePicker from '../components/DatePicker';
+import TextInput from '../components/TextInput';
+import Header from '../components/Header';
 
 function App() {
 	const stateList = states.map(state => state.name);
-	const [formData, setFormData] = useState({
+	const [formState, setFormState] = useState(false);
+	const [employee, setEmployee] = useState({
 		firstName: '',
 		lastName: '',
 		birthDate: null,
@@ -29,28 +31,37 @@ function App() {
 
 	const handleInputChange = e => {
 		const { id, value } = e.target;
-		setFormData({
-			...formData,
+		setEmployee({
+			...employee,
 			[id]: value,
 		});
 	};
 
 	const handleDateChange = (prop, date) => {
-		setFormData({
-			...formData,
+		setEmployee({
+			...employee,
 			[prop]: date,
 		});
 	};
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		localStorage.setItem('employees', JSON.stringify(formData));
+
+		let employees = JSON.parse(localStorage.getItem('employees'));
+
+		if (!Array.isArray(employees)) {
+			employees = [];
+		}
+
+		employees.push(employee);
+
+		localStorage.setItem('employees', JSON.stringify(employees));
+
+		setFormState(true);
 	};
 	return (
 		<div className="App">
-			<div className="title">
-				<h1>HRnet</h1>
-			</div>
+			<Header />
 			<div className="container">
 				<Link to="/employeesList">
 					<Buttons label={'View Current Employees'} />
@@ -117,7 +128,13 @@ function App() {
 							onChange={handleInputChange}
 						/>
 					</div>
-					<SaveEmployee data={formData} />
+					{!formState ? (
+						<Buttons label={'Save'} submit={true} />
+					) : (
+						<div id="confirmation">
+							<h1>Employee Created!</h1>
+						</div>
+					)}
 				</form>
 			</div>
 		</div>

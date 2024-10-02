@@ -11,11 +11,11 @@
 	font-size: 32px;
 	font-weight: 700;
 	height: 100px;
-	background-color: #414141;
+	background-color: #646464;
 }
 
 .title h1 {
-	text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.2);
+	text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
 }
 
 .container {
@@ -85,6 +85,7 @@ label {
 	justify-content: center;
 	column-gap: 5vw;
 	flex-wrap: wrap;
+	position: relative;
 }
 
 #create-employee .address :nth-child(5) {
@@ -139,11 +140,50 @@ label {
 }
 
 #confirmation {
-	width: 300px;
 	font-size: 22px;
-	margin: auto;
-	text-align: center;
-	margin-top: 30px;
 	color: #70a838;
-	text-decoration: underline;
+}
+
+#banner {
+	margin: auto;
+	width: fit-content;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	padding-top: 30px;
+}
+
+#banner h1 {
+	color: #646464;
+}
+
+.dt-container {
+	width: 80%;
+	margin: auto;
+	padding-bottom: 100px;
+}
+
+.page-link {
+	color: #70a838 !important;
+}
+.active > .page-link {
+	color: white !important;
+	background-color: #70a838 !important;
+	border-color: #70a838 !important;
+}
+
+.dt-length select:focus {
+	border-color: #70a838 !important;
+	box-shadow: 0 0.15rem 0 rgba(112, 168, 56, 0.2) !important;
+}
+
+.form-select option:hover {
+	background-color: #70a838 !important;
+}
+
+.dt-search input:focus {
+	border-color: #70a838;
+	box-shadow: 0 0.15rem 0 rgba(112, 168, 56, 0.2) !important;
 }
