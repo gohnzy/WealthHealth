@@ -85,7 +85,6 @@ label {
 	justify-content: center;
 	column-gap: 5vw;
 	flex-wrap: wrap;
-	position: relative;
 }
 
 #create-employee .address :nth-child(5) {
@@ -122,11 +121,6 @@ label {
 	padding: 6px;
 }
 
-.address {
-	margin: 10px 0 0 0;
-	border-radius: 3px;
-}
-
 .dropdownMenus {
 	margin-top: 30px;
 	height: 56px;
@@ -139,9 +133,49 @@ label {
 	position: relative;
 }
 
-#confirmation {
+.confirmation {
 	font-size: 22px;
 	color: #70a838;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 10;
+}
+
+.confirmation h1 {
+	margin: 20% auto;
+	background-color: #646464;
+	border-radius: 25px;
+	padding: 20px;
+	position: relative;
+	box-shadow: 1px 1px 30px 5px rgba(112, 168, 56, 1);
+}
+
+.confirmation h1 i {
+	background-color: #70a838;
+	border-radius: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 25px;
+	width: 25px;
+	font-size: 16px;
+	position: absolute;
+	left: 95%;
+	top: -10%;
+	color: #646464;
+	box-shadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.3);
+}
+
+.confirmation h1 i:hover {
+	cursor: pointer;
+	box-shadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.6);
 }
 
 #banner {
@@ -186,4 +220,71 @@ label {
 .dt-search input:focus {
 	border-color: #70a838;
 	box-shadow: 0 0.15rem 0 rgba(112, 168, 56, 0.2) !important;
+}
+
+#noEmployeesFound {
+	margin: auto;
+	width: fit-content;
+	padding-top: 50px;
+	font-size: 18px;
+	color: #70a838;
+	font-style: italic;
+}
+
+table thead .sorting_asc::after,
+table thead .sorting_desc::after {
+	font-family: 'FontAwesome';
+	content: '\f0dc';
+	float: right;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+table thead .sorting_asc::after {
+	content: '\f0de';
+}
+
+table thead .sorting_desc::after {
+	content: '\f0dd';
+}
+
+.highlight-column {
+	background-color: #f0f8ff; /* Couleur de fond lorsque tri actif */
+	color: #000; /* Couleur de texte */
+}
+
+.address {
+	margin: 10px 0 0 0;
+	border-radius: 3px;
+
+	display: block !important;
+	margin-inline-start: 2px !important;
+	margin-inline-end: 2px !important;
+	padding-block-start: 0.35em !important;
+	padding-inline-start: 0.75em !important;
+	padding-inline-end: 0.75em !important;
+	padding-block-end: 0.625em !important;
+	min-inline-size: min-content !important;
+	border-width: 2px !important;
+	border-style: groove !important;
+	border-color: rgb(192, 192, 192) !important;
+	border-image: initial !important;
+}
+#address-title {
+	display: block !important;
+	padding-inline-start: 2px !important;
+	padding-inline-end: 2px !important;
+	margin-top: -25px !important;
+	margin-bottom: 25px;
+	background-color: white;
+	width: fit-content;
+}
+
+.error input {
+	/* box-shadow: 0 0 3px 2px red !important; */
+	background-color: rgba(255, 0, 0, 0.1);
+}
+
+select.error {
+	background-color: rgba(255, 0, 0, 0.1);
 }

@@ -1,3 +1,5 @@
+import { dateChecker } from './formatData';
+
 const dataCheck = data => {
 	const errors = {};
 
@@ -9,12 +11,16 @@ const dataCheck = data => {
 		errors.lastName = true;
 	}
 
-	if (!data.birthDate) {
+	if (!data.birthDate || !dateChecker(data.birthDate)) {
 		errors.birthDate = true;
 	}
 
-	if (!data.startDate) {
+	if (!data.startDate || !dateChecker(data.startDate)) {
 		errors.startDate = true;
+	}
+
+	if (!data.state || data.state.trim() === '') {
+		errors.state = true;
 	}
 
 	if (!data.department || data.department.trim() === '') {

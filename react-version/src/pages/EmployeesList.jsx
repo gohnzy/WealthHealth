@@ -4,15 +4,18 @@ import Buttons from '../components/Buttons';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-bs5';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'datatables.net-bs5';
 
 import Header from '../components/Header';
 
-import formatData from '../utils/formatData';
+import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
 
 DataTable.use(DT);
 
 const EmployeesList = () => {
-	const employees = formatData(localStorage.getItem('employees'));
+	const { employees } = useEmployeeContext();
+
 	const columns = [
 		{ title: 'First Name', data: 'firstName' },
 		{ title: 'Last Name', data: 'lastName' },
@@ -21,12 +24,8 @@ const EmployeesList = () => {
 		{ title: 'Department', data: 'department' },
 		{ title: 'Street', data: 'street' },
 		{ title: 'City', data: 'city' },
+		{ title: 'State', data: 'state' },
 		{ title: 'Zip Code', data: 'zipCode' },
-	];
-	const row = [
-		employees.map((employee, index) => {
-			return { index: index };
-		}),
 	];
 
 	return (
@@ -38,26 +37,40 @@ const EmployeesList = () => {
 					<Buttons label={'Home'} />
 				</Link>
 			</div>
-
-			<DataTable
-				data={employees}
-				columns={columns}
-				row={row}
-				className="table table-striped table-hover table-bordered table-custom"
-			>
-				<thead>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Birth Date</th>
-						<th>Start Date</th>
-						<th>Department</th>
-						<th>Street</th>
-						<th>City</th>
-						<th>Zip Code</th>
-					</tr>
-				</thead>
-			</DataTable>
+			{employees.length > 0 ? (
+				<DataTable
+					data={employees}
+					columns={columns}
+					className="table table-striped table-hover table-bordered table-custom"
+					options={{
+						order: [1, 'asc'],
+						columnDefs: [
+							{
+								targets: '_all',
+								orderSequence: ['asc', 'desc'],
+							},
+						],
+					}}
+				>
+					<thead>
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Birth Date</th>
+							<th>Start Date</th>
+							<th>Department</th>
+							<th>Street</th>
+							<th>City</th>
+							<th>State</th>
+							<th>Zip Code</th>
+						</tr>
+					</thead>
+				</DataTable>
+			) : (
+				<div id="noEmployeesFound">
+					No employees found, try adding a new one!
+				</div>
+			)}
 		</div>
 	);
 };

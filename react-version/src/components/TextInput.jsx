@@ -2,15 +2,16 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const TextInput = ({ label, onChange, id }) => {
+const TextInput = ({ label, onChange, id, error }) => {
 	return (
 		<CustomTextField
 			id={id}
 			label={label}
 			onChange={onChange}
 			variant="outlined"
-			className="textInputCreateEmployee"
-			required
+			className={
+				error ? 'textInputCreateEmployee error' : 'textInputCreateEmployee'
+			}
 			fullWidth
 		/>
 	);

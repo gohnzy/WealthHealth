@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material';
-
 const Buttons = ({ label, submit }) => {
 	return submit ? (
 		<StyledButton variant="contained" type="submit">

@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react'; // Ajout de useEffect
 import states from '../utils/states';
 import departments from '../utils/departments';
-
-// New NPM Plugin for select dropdown menus
 import Dropdown from 'select-menu-react-plugin';
 
 import Buttons from '../components/Buttons';
@@ -14,9 +11,14 @@ import DatePicker from '../components/DatePicker';
 import TextInput from '../components/TextInput';
 import Header from '../components/Header';
 
+import formatDate from '../utils/formatData';
+import initialState from '../utils/dataInitialState';
+import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
+import { useValidation } from '../utils/context.js/FormContext'; // Chemin pour le contexte de validation
+import ConfirmationModale from '../components/ConfirmationModale';
+
 function App() {
 	const stateList = states.map(state => state.name);
-	const [formState, setFormState] = useState(false);
 	const [employee, setEmployee] = useState({
 		firstName: '',
 		lastName: '',
@@ -28,6 +30,10 @@ function App() {
 		state: '',
 		zipCode: '',
 	});
+	const [errors, setErrors] = useState({});
+
+	const { addEmployee } = useEmployeeContext();
+	const { validateData, formState, updateFormState } = useValidation();
 
 	const handleInputChange = e => {
 		const { id, value } = e.target;
@@ -40,25 +46,24 @@ function App() {
 	const handleDateChange = (prop, date) => {
 		setEmployee({
 			...employee,
-			[prop]: date,
+			[prop]: formatDate(date),
 		});
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault();
-
-		let employees = JSON.parse(localStorage.getItem('employees'));
-
-		if (!Array.isArray(employees)) {
-			employees = [];
+		try {
+			await validateData(employee);
+			console.log('Formulaire soumis', employee);
+			addEmployee(employee);
+			setEmployee(initialState);
+			setErrors({});
+			updateFormState(false);
+		} catch (validationErrors) {
+			setErrors(validationErrors);
 		}
-
-		employees.push(employee);
-
-		localStorage.setItem('employees', JSON.stringify(employees));
-
-		setFormState(true);
 	};
+
 	return (
 		<div className="App">
 			<Header />
@@ -67,73 +72,86 @@ function App() {
 					<Buttons label={'View Current Employees'} />
 				</Link>
 				<h2>Create Employee</h2>
-				<form action="#" id="create-employee" onSubmit={handleSubmit}>
+				<form
+					action="#"
+					id="create-employee"
+					onSubmit={handleSubmit}
+					key={formState}
+				>
 					<div id="employee-infos">
 						<TextInput
-							label={'First Name'}
+							label={'First Name *'}
 							id={'firstName'}
 							onChange={handleInputChange}
+							error={errors.firstName ? true : false}
 						/>
 						<TextInput
-							label={'Last Name'}
+							label={'Last Name *'}
 							id={'lastName'}
 							onChange={handleInputChange}
+							error={errors.lastName ? true : false}
 						/>
 						<DatePicker
-							label={'Birth Date'}
-							onChange={date => handleDateChange('birthDate', date)}
+							label={'Birth Date *'}
 							id={'birthDate'}
+							onChange={date => handleDateChange('birthDate', date)}
+							name={'birthDate'}
+							error={errors.birthDate ? true : false}
 						/>
 						<DatePicker
-							label={'Start Date'}
+							label={'Start Date *'}
 							onChange={date => handleDateChange('startDate', date)}
-							id={'startDate'}
+							name={'startDate'}
+							error={errors.startDate ? true : false}
 						/>
 					</div>
 
 					<fieldset className="address">
-						<legend>Address</legend>
+						<legend id="address-title">Address</legend>
 
 						<TextInput
-							label={'Street'}
+							label={'Street *'}
 							id={'street'}
 							onChange={handleInputChange}
+							error={errors.street ? true : false}
 						/>
 
 						<TextInput
-							label={'City'}
+							label={'City *'}
 							id={'city'}
 							onChange={handleInputChange}
+							error={errors.city ? true : false}
 						/>
 
 						<Dropdown
-							label={'State'}
+							label={'State *'}
 							id={'state'}
 							data={stateList}
 							onChange={handleInputChange}
+							error={errors.state ? true : false}
 						/>
 
 						<TextInput
-							label={'Zip Code'}
+							label={'Zip Code *'}
 							id={'zipCode'}
 							onChange={handleInputChange}
+							error={errors.zipCode ? true : false}
 						/>
 					</fieldset>
 					<div id="employee-department">
 						<label htmlFor="department">Department</label>
 						<Dropdown
-							label={'Department'}
+							label={'Department *'}
 							data={departments}
 							id={'department'}
 							onChange={handleInputChange}
+							error={errors.department ? true : false}
 						/>
 					</div>
-					{!formState ? (
+					{formState ? (
 						<Buttons label={'Save'} submit={true} />
 					) : (
-						<div id="confirmation">
-							<h1>Employee Created!</h1>
-						</div>
+						<ConfirmationModale />
 					)}
 				</form>
 			</div>

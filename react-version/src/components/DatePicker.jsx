@@ -4,14 +4,18 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 
-const DatePicker = ({ label, onChange, id }) => {
+const DatePicker = ({ label, onChange, name, id, error }) => {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
 			<StyledDatePicker
-				id={id}
 				label={label}
 				onChange={onChange}
-				className={`datesPickerCreateEmployee ${label}`}
+				name={name}
+				className={
+					error
+						? `datesPickerCreateEmployee ${id} error`
+						: `datesPickerCreateEmployee ${id}`
+				}
 			/>
 		</LocalizationProvider>
 	);
