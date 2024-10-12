@@ -1,40 +1,40 @@
+///// Main component /////
+// Form made to add an employee //
+
+// Style and useful imports
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
 
-import React, { useState } from 'react'; // Ajout de useEffect
-import states from '../utils/states';
-import departments from '../utils/departments';
+// Select menus react package to replace older jquery version
 import Dropdown from 'select-menu-react-plugin';
 
+// Import of utils - datas and format data
+import initialState from '../utils/dataInitialState';
+import states from '../utils/states';
+import departments from '../utils/departments';
+import formatDate from '../utils/formatData';
+
+// Components
 import Buttons from '../components/Buttons';
 import DatePicker from '../components/DatePicker';
 import TextInput from '../components/TextInput';
 import Header from '../components/Header';
-
-import formatDate from '../utils/formatData';
-import initialState from '../utils/dataInitialState';
-import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
-import { useValidation } from '../utils/context.js/FormContext'; // Chemin pour le contexte de validation
 import ConfirmationModale from '../components/ConfirmationModale';
+
+// Global state with React Context API
+import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
+import { useValidation } from '../utils/context.js/FormContext';
 
 function App() {
 	const stateList = states.map(state => state.name);
-	const [employee, setEmployee] = useState({
-		firstName: '',
-		lastName: '',
-		birthDate: null,
-		startDate: null,
-		department: '',
-		street: '',
-		city: '',
-		state: '',
-		zipCode: '',
-	});
+	const [employee, setEmployee] = useState(initialState);
 	const [errors, setErrors] = useState({});
 
 	const { addEmployee } = useEmployeeContext();
 	const { validateData, formState, updateFormState } = useValidation();
 
+	// Update employee object on input changes
 	const handleInputChange = e => {
 		const { id, value } = e.target;
 		setEmployee({
@@ -43,6 +43,7 @@ function App() {
 		});
 	};
 
+	// Update dates values in employee object on input changes
 	const handleDateChange = (prop, date) => {
 		setEmployee({
 			...employee,
@@ -50,16 +51,28 @@ function App() {
 		});
 	};
 
+	/// Submit form ///
 	const handleSubmit = async event => {
 		event.preventDefault();
+
+		// React context async function try
 		try {
 			await validateData(employee);
 			console.log('Formulaire soumis', employee);
+
+			// Employee add to global state
 			addEmployee(employee);
+
+			// Reset employee object
 			setEmployee(initialState);
+
+			// Reset errors
 			setErrors({});
+
+			// Reset form state, clear all inputs
 			updateFormState(false);
 		} catch (validationErrors) {
+			// Set errors in case of missing informations when form submit
 			setErrors(validationErrors);
 		}
 	};

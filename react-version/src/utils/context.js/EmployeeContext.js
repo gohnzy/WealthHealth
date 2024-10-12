@@ -5,6 +5,7 @@ const EmployeeContext = createContext();
 export const EmployeeProvider = ({ children }) => {
 	const [employees, setEmployees] = useState([]);
 
+	// Add employee to state
 	const addEmployee = employee => {
 		setEmployees(prevEmployees => [...prevEmployees, employee]);
 	};

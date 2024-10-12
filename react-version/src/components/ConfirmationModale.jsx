@@ -11,6 +11,7 @@ const ConfirmationModale = () => {
 					onClick={() => updateFormState(true)}
 				></i>
 			</h1>
+			<div id="close-target" onClick={() => updateFormState(true)}></div>
 		</div>
 	);
 };

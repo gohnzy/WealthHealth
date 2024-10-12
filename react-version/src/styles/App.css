@@ -148,6 +148,12 @@ label {
 	z-index: 10;
 }
 
+#close-target {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
 .confirmation h1 {
 	margin: 20% auto;
 	background-color: #646464;
@@ -155,6 +161,7 @@ label {
 	padding: 20px;
 	position: relative;
 	box-shadow: 1px 1px 30px 5px rgba(112, 168, 56, 1);
+	z-index: 20;
 }
 
 .confirmation h1 i {

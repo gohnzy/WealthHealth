@@ -1,12 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 import { dateChecker } from '../formatData';
-// Créer le contexte de validation
 const ValidationContext = createContext();
 
 export const ValidationProvider = ({ children }) => {
 	const [formState, setFormState] = useState(true);
 	const [errors, setErrors] = useState({});
 
+	// Form check function before submitting and adding employee's infos in state
 	const validateData = async data => {
 		return new Promise((resolve, reject) => {
 			let newErrors = {};
@@ -62,5 +62,4 @@ export const ValidationProvider = ({ children }) => {
 	);
 };
 
-// Hook personnalisé pour utiliser le contexte
 export const useValidation = () => useContext(ValidationContext);
