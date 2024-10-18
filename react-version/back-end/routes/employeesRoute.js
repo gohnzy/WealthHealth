@@ -17,36 +17,41 @@ router.get('/employees', async (req, res) => {
 
 router.post('/employees', async (req, res) => {
 	const body = req.body;
-	console.log(req);
+	console.log(body);
 
 	const data = {
-		firstName: body.firstName,
-		lastName: body.lastName,
-		birthDate: body.birthDate,
-		startDate: body.startDate,
-		department: body.department,
-		street: body.street,
-		city: body.city,
-		state: body.state,
-		zipCode: body.zipCode,
+		firstName: body.data.firstName,
+		lastName: body.data.lastName,
+		birthDate: body.data.birthDate,
+		startDate: body.data.startDate,
+		department: body.data.department,
+		street: body.data.street,
+		city: body.data.city,
+		state: body.data.state,
+		zipCode: body.data.zipCode,
 	};
 
 	const validateData = data => {
 		const requiredFields = Object.keys(data);
+		console.log(requiredFields);
 
 		for (const field of requiredFields) {
 			if (!data[field]) {
-				return `Le champ ${field} est requis.`;
+				return `${field} is required.`;
 			}
 		}
 
 		if (data.birthDate && isNaN(Date.parse(data.birthDate))) {
-			return "La date de naissance n'est pas valide.";
+			return 'birthDate is not valid.';
+		}
+
+		if (data.startDate && isNaN(Date.parse(data.startDate))) {
+			return 'startDate is not valid.';
 		}
 
 		const zipCodeRegex = /^\d{5}$/;
 		if (data.zipCode && !zipCodeRegex.test(data.zipCode)) {
-			return 'Le code postal doit être un nombre à 5 chiffres.';
+			return 'zipCode must be a 5 digits value.';
 		}
 
 		return null;
@@ -59,7 +64,7 @@ router.post('/employees', async (req, res) => {
 
 	try {
 		const query = `
-            INSERT INTO "Employees" ("""firstName""", """lastName""", """birthDate""", """startDate""", """department""", """street""", """city""", """state""", """zipCode""")
+            INSERT INTO "Employees" ("firstName", "lastName", "birthDate", "startDate", "department", "street", "city", "state", "zipCode")
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *;
         `;

@@ -26,12 +26,14 @@ import ConfirmationModale from '../components/ConfirmationModale';
 import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
 import { useValidation } from '../utils/context.js/FormContext';
 
+import { createEmployeeCall } from '../utils/APIcalls';
+
 function App() {
 	const stateList = states.map(state => state.name);
 	const [employee, setEmployee] = useState(initialState);
 	const [errors, setErrors] = useState({});
 
-	const { addEmployee } = useEmployeeContext();
+	// const { addEmployee } = useEmployeeContext();
 	const { validateData, formState, updateFormState } = useValidation();
 
 	// Update employee object on input changes
@@ -58,10 +60,9 @@ function App() {
 		// React context async function try
 		try {
 			await validateData(employee);
-			console.log('Formulaire soumis', employee);
 
 			// Employee add to global state
-			addEmployee(employee);
+			createEmployeeCall(employee);
 
 			// Reset employee object
 			setEmployee(initialState);

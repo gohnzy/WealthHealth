@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Buttons from '../components/Buttons';
 import DataTable from 'datatables.net-react';
@@ -9,13 +9,14 @@ import 'datatables.net-bs5';
 
 import Header from '../components/Header';
 
-import { useEmployeeContext } from '../utils/context.js/EmployeeContext';
+import { employeesListCall } from '../utils/APIcalls';
 
 DataTable.use(DT);
 
 const EmployeesList = () => {
-	const { employees } = useEmployeeContext();
-
+	const [employees, setEmployees] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [errors, setErrors] = useState(null);
 	const columns = [
 		{ title: 'First Name', data: 'firstName' },
 		{ title: 'Last Name', data: 'lastName' },
@@ -28,6 +29,21 @@ const EmployeesList = () => {
 		{ title: 'Zip Code', data: 'zipCode' },
 	];
 
+	useEffect(() => {
+		const fetchEmployees = async () => {
+			try {
+				const response = await employeesListCall();
+
+				setEmployees(response);
+			} catch (error) {
+				console.error('Erreur lors de la récupération des employés:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchEmployees();
+	}, []);
+
 	return (
 		<div id="employee-div" className="App">
 			<Header />
@@ -37,7 +53,11 @@ const EmployeesList = () => {
 					<Buttons label={'Home'} />
 				</Link>
 			</div>
-			{employees.length > 0 ? (
+			{loading ? (
+				<div>Loading...</div>
+			) : errors ? (
+				<div id="dataError">Error in data fetch : {errors}</div>
+			) : employees.length > 0 ? (
 				<DataTable
 					data={employees}
 					columns={columns}

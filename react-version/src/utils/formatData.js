@@ -1,4 +1,4 @@
-const formatDate = entry => {
+export const formatDate = entry => {
 	if (entry) {
 		const date = new Date(entry);
 		const month = String(date.getMonth() + 1).padStart(2, '0');
